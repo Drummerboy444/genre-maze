@@ -10,7 +10,7 @@ class Maze:
         self.height = height
         self.rows = [[Cell(x, y) for x in range(width)] for y in range(height)]
 
-        self._randomize()
+        self._randomise()
 
     def print(self):
         for _ in self.rows[0]:
@@ -30,37 +30,30 @@ class Maze:
             print('|', end='')
             print()
 
-    def _randomize(self):
+    # Uses a recursive backtracking algorithm to generate the maze, the process is:
+    # 1. Choose a starting cell and set it as the current cell.
+    # 2. Randomly choose a neighboring cell that has not been visited and join it to
+    #    the current cell, this then becomes the new current cell.
+    # 3. If all neighboring cells have been visited, back up to the last cell that has
+    #    unvisited neighbors and set it as the current cell.
+    # 4. Repeat step 2 until all cells have been visited.
+    def _randomise(self):
         stack = []
-
-        # Make the initial cell the current cell and mark it as visited
         current_cell = self._random_cell()
         current_cell.visited = True
 
-        # While there are unvisited cells:
         while self._has_unvisited_cells():
-
-            # If the current cell has any neighbours which have not been visited
             unvisited_neighbours = self._get_unvisited_neighbours(current_cell)
             if unvisited_neighbours:
-
-                # Choose randomly one of the unvisited neighbours
-                unvisited_neighbour = random.choice(unvisited_neighbours)
-
-                # Push the current cell to the stack if it has more than one unvisited neighbor
                 if len(unvisited_neighbours) > 1:
                     stack.append(current_cell)
 
-                # Remove the wall between the current cell and the chosen cell
+                unvisited_neighbour = random.choice(unvisited_neighbours)
                 self._join(current_cell, unvisited_neighbour)
-
-                # Make the chosen cell the current cell and mark it as visited
                 current_cell = unvisited_neighbour
                 unvisited_neighbour.visited = True
 
-            # Else if stack is not empty
             elif stack:
-                # pop a cell from the stack and make it the current cell
                 current_cell = stack.pop()
 
     def _random_cell(self):
