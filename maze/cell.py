@@ -1,26 +1,23 @@
-from enum import Enum
-
-
-class Direction(Enum):
-    UP = 1
-    DOWN = 2
-    LEFT = 3
-    RIGHT = 4
+from .direction import Direction
 
 
 class Cell:
-    def __init__(self):
-        self.up_join = False
-        self.down_join = False
-        self.left_join = False
-        self.right_join = False
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.visited = False
+
+        self.joined_up = False
+        self.joined_down = False
+        self.joined_left = False
+        self.joined_right = False
 
     def join(self, direction):
         if direction == Direction.UP:
-            self.up_join = True
+            self.joined_up = True
         elif direction == Direction.DOWN:
-            self.down_join = True
+            self.joined_down = True
         elif direction == Direction.LEFT:
-            self.left_join = True
+            self.joined_left = True
         elif direction == Direction.RIGHT:
-            self.right_join = True
+            self.joined_right = True
