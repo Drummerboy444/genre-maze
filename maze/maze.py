@@ -68,6 +68,10 @@ class Maze:
         return False
 
     def _get_unvisited_neighbours(self, cell):
+        neighbours = self._get_neighbours(cell)
+        return [cell for cell in neighbours if not cell.visited]
+
+    def _get_neighbours(self, cell):
         neighbours = []
         if cell.x > 0:
             neighbours.append(self._get_cell(cell.x - 1, cell.y))
@@ -77,8 +81,7 @@ class Maze:
             neighbours.append(self._get_cell(cell.x, cell.y - 1))
         if cell.y < self.height - 1:
             neighbours.append(self._get_cell(cell.x, cell.y + 1))
-
-        return [cell for cell in neighbours if not cell.visited]
+        return neighbours
 
     def _get_cell(self, x, y):
         return self.rows[y][x]
