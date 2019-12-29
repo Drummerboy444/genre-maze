@@ -45,8 +45,7 @@ class Maze:
         while self._has_unvisited_cells():
             unvisited_neighbours = self._get_unvisited_neighbours(current_cell)
             if unvisited_neighbours:
-                if len(unvisited_neighbours) > 1:
-                    stack.append(current_cell)
+                stack.append(current_cell)
 
                 unvisited_neighbour = random.choice(unvisited_neighbours)
                 self._join(current_cell, unvisited_neighbour)
