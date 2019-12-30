@@ -9,8 +9,37 @@ class Maze:
         self.width = width
         self.height = height
         self.rows = [[Cell(x, y) for x in range(width)] for y in range(height)]
+        self.player_position = self._get_cell(0, 0)
 
         self._randomise()
+
+    def can_move(self, direction):
+        return self.player_position.joined(direction)
+
+    def move(self, direction):
+        if not self.can_move(direction):
+            return
+
+        if direction == Direction.UP:
+            self.player_position = self._get_cell(
+                self.player_position.x,
+                self.player_position.y - 1
+            )
+        elif direction == Direction.DOWN:
+            self.player_position = self._get_cell(
+                self.player_position.x,
+                self.player_position.y + 1
+            )
+        elif direction == Direction.LEFT:
+            self.player_position = self._get_cell(
+                self.player_position.x - 1,
+                self.player_position.y
+            )
+        elif direction == Direction.RIGHT:
+            self.player_position = self._get_cell(
+                self.player_position.x + 1,
+                self.player_position.y
+            )
 
     def print(self):
         for _ in self.rows[0]:
@@ -19,13 +48,15 @@ class Maze:
 
         for row in self.rows:
             for cell in row:
-                if cell.joined_left and not cell.joined_down:
+                if cell == self.player_position:
+                    print('XX', end='')
+                elif cell.joined(Direction.LEFT) and not cell.joined(Direction.DOWN):
                     print('__', end='')
-                elif cell.joined_left and cell.joined_down:
+                elif cell.joined(Direction.LEFT) and cell.joined(Direction.DOWN):
                     print('  ', end='')
-                elif not cell.joined_left and not cell.joined_down:
+                elif not cell.joined(Direction.LEFT) and not cell.joined(Direction.DOWN):
                     print('|_', end='')
-                elif not cell.joined_left and cell.joined_down:
+                elif not cell.joined(Direction.LEFT) and cell.joined(Direction.DOWN):
                     print('| ', end='')
             print('|', end='')
             print()

@@ -21,3 +21,13 @@ class Cell:
             self.joined_left = True
         elif direction == Direction.RIGHT:
             self.joined_right = True
+
+    def joined(self, direction):
+        if direction == Direction.UP:
+            return self.joined_up
+        elif direction == Direction.DOWN:
+            return self.joined_down
+        elif direction == Direction.LEFT:
+            return self.joined_left
+        elif direction == Direction.RIGHT:
+            return self.joined_right
