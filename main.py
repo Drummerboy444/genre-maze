@@ -13,4 +13,8 @@ def draw():
     sketch.draw()
 
 
+def key_pressed():
+    sketch.key_pressed(key)
+
+
 run()
