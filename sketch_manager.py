@@ -4,8 +4,8 @@ from render import Renderer
 
 
 class SketchManager:
-    maze_width = 10
-    maze_height = 10
+    maze_width = 20
+    maze_height = 20
     render_width = 500
     render_height = 500
 
