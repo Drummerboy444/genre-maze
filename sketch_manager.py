@@ -1,20 +1,24 @@
-from p5 import size, background
-
 from input import InputManager
 from maze import Maze
+from render import Renderer
 
 
 class SketchManager:
+    maze_width = 10
+    maze_height = 10
+    render_width = 500
+    render_height = 500
+
     def __init__(self):
-        self.maze = Maze(10, 10)
+        self.maze = Maze(self.maze_width, self.maze_height)
+        self.renderer = Renderer(self.maze, self.render_width, self.render_height)
         self.input_manager = InputManager(self.maze)
 
     def setup(self):
-        size(400, 400)
-        self.maze.print()
+        self.renderer.init()
 
     def draw(self):
-        background(100)
+        self.renderer.render()
 
-    def key_pressed(self, key):
-        self.input_manager.handle(key)
+    def key_pressed(self, key_event):
+        self.input_manager.handle(key_event)

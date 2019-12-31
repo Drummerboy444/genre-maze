@@ -5,17 +5,15 @@ class InputManager:
     def __init__(self, maze):
         self.maze = maze
 
-    def handle(self, key):
-        key_name = key.name
+    def handle(self, key_event):
+        key_name = key_event.key.name
+        print(key_name)
         if not self._is_valid(key_name):
             return
 
         direction = self._get_direction(key_name)
         if self.maze.can_move(direction):
             self.maze.move(direction)
-            self.maze.print()
-
-        self.maze.print()
 
     def _is_valid(self, key_name):
         return key_name in {'W', 'A', 'S', 'D'}
