@@ -1,4 +1,4 @@
-from p5 import background, size
+from p5 import background, size, fill, ellipse
 
 from .renderable_cell import RenderableCell
 
@@ -18,11 +18,25 @@ class Renderer:
 
     def render(self):
         background(100)
+        self._render_maze()
+        self._render_player()
+
+    def _create_renderable_cell(self, cell):
+        position = self._position_from_cell(cell)
+        return RenderableCell(cell, position[0], position[1], 10)
+
+    def _render_maze(self):
         for row in self.rows:
             for cell in row:
                 cell.render()
 
-    def _create_renderable_cell(self, cell):
+    def _render_player(self):
+        position = self._position_from_cell(self.maze.player_cell)
+        fill(0, 255, 0)
+        ellipse(position, 12, 12)
+        fill(255, 255, 255)
+
+    def _position_from_cell(self, cell):
         center_x = (cell.x * self.cell_width) + (self.cell_width / 2)
         center_y = (cell.y * self.cell_height) + (self.cell_height / 2)
-        return RenderableCell(cell, center_x, center_y, 10)
+        return center_x, center_y

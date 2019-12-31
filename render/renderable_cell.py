@@ -11,4 +11,4 @@ class RenderableCell:
         self.wall_directions = [direction for direction in Direction if not cell.joined(direction)]
 
     def render(self):
-        ellipse((self.center_x, self.center_y), 7, 7)
+        ellipse((self.center_x, self.center_y), 20, 20)

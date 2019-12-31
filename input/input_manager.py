@@ -7,7 +7,6 @@ class InputManager:
 
     def handle(self, key_event):
         key_name = key_event.key.name
-        print(key_name)
         if not self._is_valid(key_name):
             return
 

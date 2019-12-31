@@ -9,36 +9,36 @@ class Maze:
         self.width = width
         self.height = height
         self.rows = [[Cell(x, y) for x in range(width)] for y in range(height)]
-        self.player_position = self._get_cell(0, 0)
+        self.player_cell = self._get_cell(0, 0)
 
         self._randomise()
 
     def can_move(self, direction):
-        return self.player_position.joined(direction)
+        return self.player_cell.joined(direction)
 
     def move(self, direction):
         if not self.can_move(direction):
             return
 
         if direction == Direction.UP:
-            self.player_position = self._get_cell(
-                self.player_position.x,
-                self.player_position.y - 1
+            self.player_cell = self._get_cell(
+                self.player_cell.x,
+                self.player_cell.y - 1
             )
         elif direction == Direction.DOWN:
-            self.player_position = self._get_cell(
-                self.player_position.x,
-                self.player_position.y + 1
+            self.player_cell = self._get_cell(
+                self.player_cell.x,
+                self.player_cell.y + 1
             )
         elif direction == Direction.LEFT:
-            self.player_position = self._get_cell(
-                self.player_position.x - 1,
-                self.player_position.y
+            self.player_cell = self._get_cell(
+                self.player_cell.x - 1,
+                self.player_cell.y
             )
         elif direction == Direction.RIGHT:
-            self.player_position = self._get_cell(
-                self.player_position.x + 1,
-                self.player_position.y
+            self.player_cell = self._get_cell(
+                self.player_cell.x + 1,
+                self.player_cell.y
             )
 
     def print(self):
@@ -48,7 +48,7 @@ class Maze:
 
         for row in self.rows:
             for cell in row:
-                if cell == self.player_position:
+                if cell == self.player_cell:
                     print('XX', end='')
                 elif cell.joined(Direction.LEFT) and not cell.joined(Direction.DOWN):
                     print('__', end='')
