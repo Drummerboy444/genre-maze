@@ -66,8 +66,9 @@ followers = user['followers']['total']
 while True:
     print()
     print(">>> Welcome to Spotipy" + display_name + "!")
+    print(">>> You have " + str(followers) + "followers.")
     print()
-    print("0 - Search for a genre")
+    print("0 - Search for an artist")
     print("1 - exit")
     print()
     choice = input("Enter choice: ")
@@ -75,55 +76,55 @@ while True:
     # Search for the artist
     if choice == "0":
         print()
-        genre = input("Enter genre name:")
+        search_query = input("Enter artist name:")
         print()
     
         # Get search results
-        search_results = spotify_object.search(f'* genre:"{genre}"', limit = 1, offset = 0, type = 'track')
+        search_results = spotify_object.search(search_query,1,0,'artist')
         print(json.dumps(search_results, sort_keys=True, indent=4))
 
-        # artist = search_results['artists']['items'][0]
-        # print(artist['name'])
-        # print(f"{artist['followers']['total']} followers")
-        # print(f"Genre: {artist['genres'][0]}")
-        # print()
-        # webbrowser.open(artist['images'][0]['url'])
-        # artist_ID = artist['id']
-        # # Artist id is usually 
-        # # the first argument for the API modules
+        artist = search_results['artists']['items'][0]
+        print(artist['name'])
+        print(f"{artist['followers']['total']} followers")
+        print(f"Genre: {artist['genres'][0]}")
+        print()
+        webbrowser.open(artist['images'][0]['url'])
+        artist_ID = artist['id']
+        # Artist id is usually 
+        # the first argument for the API modules
 
-        # #Album and track details
-        # track_URIs = []
-        # track_art = []
-        # z = 0
+        #Album and track details
+        track_URIs = []
+        track_art = []
+        z = 0
 
-        # # Extract Album data
-        # album_results = spotify_object.artist_albums(artist_ID)
-        # # go down one level because everything useful is in 'items'
-        # album_results = album_results['items']
+        # Extract Album data
+        album_results = spotify_object.artist_albums(artist_ID)
+        # go down one level because everything useful is in 'items'
+        album_results = album_results['items']
 
-        # for item in album_results:
-        #     print("Album " + item['name'])
-        #     album_ID = item['id']
-        #     album_art = item['images'][0]['url']
+        for item in album_results:
+            print("Album " + item['name'])
+            album_ID = item['id']
+            album_art = item['images'][0]['url']
 
-        #     # Extract track data
-        #     track_results = spotify_object.album_tracks(album_ID)
-        #     track_results = track_results['items']
+            # Extract track data
+            track_results = spotify_object.album_tracks(album_ID)
+            track_results = track_results['items']
 
-        #     for item in track_results:
-        #         print(str(z) + ": " + item['name'])
-        #         track_URIs.append(item['uri'])
-        #         track_art.append(album_art)
-        #         z+=1
-        #     print()
+            for item in track_results:
+                print(str(z) + ": " + item['name'])
+                track_URIs.append(item['uri'])
+                track_art.append(album_art)
+                z+=1
+            print()
         
-        # # See album art
-        # while True:
-        #     song_selection = input("Enter a song number to see associated artwork: ")
-        #     if song_selection == '':
-        #         break
-        #     webbrowser.open(track_art[int(song_selection)])
+        # See album art
+        while True:
+            song_selection = input("Enter a song number to see associated artwork: ")
+            if song_selection == '':
+                break
+            webbrowser.open(track_art[int(song_selection)])
 
     # End the program
     if choice == "1":
