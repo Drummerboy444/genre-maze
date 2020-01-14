@@ -7,7 +7,7 @@ import webbrowser
 import genre_picker
 import spotipy.util as util
 from json.decoder import JSONDecodeError
-
+import mp3play
 
 """
 Spotipy script. 
@@ -60,7 +60,8 @@ print("0 - Search for a genre")
 print("1 - random genre")
 print("2 - exit")
 print()
-# menu loop
+
+# MENU LOOP
 while True:
     choice = input("Enter choice: 0 = choose, 1 = random, 2 = quit ")
 
@@ -105,7 +106,7 @@ while True:
     sample_url = track_urls[picker]
 
     # play the sample and display track info
-    webbrowser.open(sample_url[0])
+    # webbrowser.open(sample_url[0])
     print(f"This is {genre}!")
     print()
     print(
@@ -114,3 +115,7 @@ while True:
     print(
         f"Track: {json.dumps(search_results[sample_url[1]]['name'], sort_keys=True, indent=4)}"
     )
+
+    # Play the mp3
+    player = mp3play.Player(sample_url[0])
+    player.play()
