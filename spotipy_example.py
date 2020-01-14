@@ -6,7 +6,7 @@ import spotipy
 import spotipy.util as util
 from json.decoder import JSONDecodeError
 
-'''
+"""
 Spotipy script. 
 First run the $ lines in terminal:
 
@@ -41,7 +41,7 @@ print(json.dumps(user, sort_keys=True, indent=4))
 # index into the data having looked at its structure in terminal
 display_name = user['display_name']
 followers = user['followers']['total']
-'''
+"""
 
 # get the username from terminal
 username = sys.argv[1]
@@ -55,12 +55,12 @@ except:
 
 # create our spotify object:
 spotify_object = spotipy.Spotify(auth=token)
- 
-#initialise user data
+
+# initialise user data
 user = spotify_object.current_user()
 print(json.dumps(user, sort_keys=True, indent=4))
-display_name = user['display_name']
-followers = user['followers']['total']
+display_name = user["display_name"]
+followers = user["followers"]["total"]
 
 # menu loop
 while True:
@@ -78,22 +78,22 @@ while True:
         print()
         search_query = input("Enter artist name:")
         print()
-    
+
         # Get search results
-        search_results = spotify_object.search(search_query,1,0,'artist')
+        search_results = spotify_object.search(search_query, 1, 0, "artist")
         print(json.dumps(search_results, sort_keys=True, indent=4))
 
-        artist = search_results['artists']['items'][0]
-        print(artist['name'])
+        artist = search_results["artists"]["items"][0]
+        print(artist["name"])
         print(f"{artist['followers']['total']} followers")
         print(f"Genre: {artist['genres'][0]}")
         print()
-        webbrowser.open(artist['images'][0]['url'])
-        artist_ID = artist['id']
-        # Artist id is usually 
+        webbrowser.open(artist["images"][0]["url"])
+        artist_ID = artist["id"]
+        # Artist id is usually
         # the first argument for the API modules
 
-        #Album and track details
+        # Album and track details
         track_URIs = []
         track_art = []
         z = 0
@@ -101,28 +101,28 @@ while True:
         # Extract Album data
         album_results = spotify_object.artist_albums(artist_ID)
         # go down one level because everything useful is in 'items'
-        album_results = album_results['items']
+        album_results = album_results["items"]
 
         for item in album_results:
-            print("Album " + item['name'])
-            album_ID = item['id']
-            album_art = item['images'][0]['url']
+            print("Album " + item["name"])
+            album_ID = item["id"]
+            album_art = item["images"][0]["url"]
 
             # Extract track data
             track_results = spotify_object.album_tracks(album_ID)
-            track_results = track_results['items']
+            track_results = track_results["items"]
 
             for item in track_results:
-                print(str(z) + ": " + item['name'])
-                track_URIs.append(item['uri'])
+                print(str(z) + ": " + item["name"])
+                track_URIs.append(item["uri"])
                 track_art.append(album_art)
-                z+=1
+                z += 1
             print()
-        
+
         # See album art
         while True:
             song_selection = input("Enter a song number to see associated artwork: ")
-            if song_selection == '':
+            if song_selection == "":
                 break
             webbrowser.open(track_art[int(song_selection)])
 
@@ -130,4 +130,3 @@ while True:
     if choice == "1":
         print("Goodbye")
         break
-    

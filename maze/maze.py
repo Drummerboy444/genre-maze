@@ -14,20 +14,20 @@ class Maze:
 
     def print(self):
         for _ in self.rows[0]:
-            print('__', end='')
+            print("__", end="")
         print()
 
         for row in self.rows:
             for cell in row:
                 if cell.joined_left and not cell.joined_down:
-                    print('__', end='')
+                    print("__", end="")
                 elif cell.joined_left and cell.joined_down:
-                    print('  ', end='')
+                    print("  ", end="")
                 elif not cell.joined_left and not cell.joined_down:
-                    print('|_', end='')
+                    print("|_", end="")
                 elif not cell.joined_left and cell.joined_down:
-                    print('| ', end='')
-            print('|', end='')
+                    print("| ", end="")
+            print("|", end="")
             print()
 
     # Uses a recursive backtracking algorithm to generate the maze, the process is:

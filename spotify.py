@@ -1,12 +1,15 @@
 import os
 import sys
 import json
-import webbrowser
+import random
 import spotipy
+import webbrowser
+import genre_picker
 import spotipy.util as util
 from json.decoder import JSONDecodeError
 
-'''
+
+"""
 Spotipy script. 
 First run the $ lines in terminal:
 
@@ -22,26 +25,11 @@ Browser will prompt for authentication.
 Copy and paste the redirect URL string 
 from the browser into terminal when prompted.
 
-To search and retrieve information from spotify:
--use the spotipy docs to see possible functions and method formats.
--Call one of the methods on the spotify_object
--assign the output of the method to a variable name
--print the json data of the variable using the print line below
+when querying new endpoints use this print statement 
+to display the json data in a format we humans can parse
 print(json.dumps(VARIABLE, sort_keys=True, indent=4))
--look at the format of the json data and index down as many levels as required
 
-Example 1:
-# create our spotify object:
-spotify_object = spotipy.Spotify(auth=token)
-
-# get user data
-user = spotify_object.current_user()
-print(json.dumps(user, sort_keys=True, indent=4))
-
-# index into the data having looked at its structure in terminal
-display_name = user['display_name']
-followers = user['followers']['total']
-'''
+"""
 
 # get the username from terminal
 username = sys.argv[1]
@@ -55,78 +43,74 @@ except:
 
 # create our spotify object:
 spotify_object = spotipy.Spotify(auth=token)
- 
-#initialise user data
+
+# initialise user data
 user = spotify_object.current_user()
 print(json.dumps(user, sort_keys=True, indent=4))
-display_name = user['display_name']
-followers = user['followers']['total']
+display_name = user["display_name"]
+followers = user["followers"]["total"]
 
+# initialise genre picker object
+genre_object = genre_picker.GenrePicker()
+
+print()
+print(">>> Welcome to Spotipy" + display_name + "!")
+print()
+print("0 - Search for a genre")
+print("1 - random genre")
+print("2 - exit")
+print()
 # menu loop
 while True:
-    print()
-    print(">>> Welcome to Spotipy" + display_name + "!")
-    print()
-    print("0 - Search for a genre")
-    print("1 - exit")
-    print()
-    choice = input("Enter choice: ")
+    choice = input("Enter choice: 0 = choose, 1 = random, 2 = quit ")
 
-    # Search for the artist
-    if choice == "0":
+    # End the program
+    if choice == "2":
+        print("Goodbye")
+        break
+
+    # get the genre from the user
+    elif choice == "0":
         print()
         genre = input("Enter genre name:")
         print()
-    
-        # Get search results
-        search_results = spotify_object.search(f'* genre:"{genre}"', limit = 1, offset = 0, type = 'track')
-        print(json.dumps(search_results, sort_keys=True, indent=4))
+    elif choice == "1":
+        genre = genre_object.random_genre()
 
-        # artist = search_results['artists']['items'][0]
-        # print(artist['name'])
-        # print(f"{artist['followers']['total']} followers")
-        # print(f"Genre: {artist['genres'][0]}")
-        # print()
-        # webbrowser.open(artist['images'][0]['url'])
-        # artist_ID = artist['id']
-        # # Artist id is usually 
-        # # the first argument for the API modules
+    # Get search results. 'items' is a list of length limit.
+    # This is where the requested content (track data) is stored
+    num_of_tracks = 10
+    search_results = spotify_object.search(
+        f'* genre:"{genre}"', limit=num_of_tracks, offset=0, type="track"
+    )
+    search_results = search_results["tracks"]["items"]
+    if len(search_results) == 0:
+        print("Not a genre")
+        continue
 
-        # #Album and track details
-        # track_URIs = []
-        # track_art = []
-        # z = 0
+    # Some of the tracks don't have a preview and return null. This is the workaround:
+    # Enumerate the items and make a list of only the items with a valid preview URL.
+    # Store each URL as a tuple with its original positon in the items list so we can
+    # retrieve the artist name and track title later from search results object.
+    # This should be made simpler by appending the artist and track data
+    # in the tuple at this point.
+    track_urls = []
+    for item in enumerate(search_results):
+        if item[1]["preview_url"] != None:
+            track_urls.append((search_results[item[0]]["preview_url"], item[0]))
+    print("________________________________________________________")
 
-        # # Extract Album data
-        # album_results = spotify_object.artist_albums(artist_ID)
-        # # go down one level because everything useful is in 'items'
-        # album_results = album_results['items']
+    # pick a random track from the tracks which have previews
+    picker = random.randint(0, len(track_urls) - 1)
+    sample_url = track_urls[picker]
 
-        # for item in album_results:
-        #     print("Album " + item['name'])
-        #     album_ID = item['id']
-        #     album_art = item['images'][0]['url']
-
-        #     # Extract track data
-        #     track_results = spotify_object.album_tracks(album_ID)
-        #     track_results = track_results['items']
-
-        #     for item in track_results:
-        #         print(str(z) + ": " + item['name'])
-        #         track_URIs.append(item['uri'])
-        #         track_art.append(album_art)
-        #         z+=1
-        #     print()
-        
-        # # See album art
-        # while True:
-        #     song_selection = input("Enter a song number to see associated artwork: ")
-        #     if song_selection == '':
-        #         break
-        #     webbrowser.open(track_art[int(song_selection)])
-
-    # End the program
-    if choice == "1":
-        print("Goodbye")
-        break
-    
+    # play the sample and display track info
+    webbrowser.open(sample_url[0])
+    print(f"This is {genre}!")
+    print()
+    print(
+        f"Artist: {json.dumps(search_results[sample_url[1]]['album']['artists'][0]['name'], indent=4)}"
+    )
+    print(
+        f"Track: {json.dumps(search_results[sample_url[1]]['name'], sort_keys=True, indent=4)}"
+    )
