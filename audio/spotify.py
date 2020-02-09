@@ -2,12 +2,12 @@ import os
 import sys
 import json
 import random
+import url_mp3play
 import spotipy
 import webbrowser
 import genre_picker
 import spotipy.util as util
 from json.decoder import JSONDecodeError
-import mp3play
 
 """
 Spotipy script. 
@@ -46,7 +46,6 @@ spotify_object = spotipy.Spotify(auth=token)
 
 # initialise user data
 user = spotify_object.current_user()
-print(json.dumps(user, sort_keys=True, indent=4))
 display_name = user["display_name"]
 followers = user["followers"]["total"]
 
@@ -54,7 +53,7 @@ followers = user["followers"]["total"]
 genre_object = genre_picker.GenrePicker()
 
 print()
-print(">>> Welcome to Spotipy" + display_name + "!")
+print("Welcome to Spotipy" + display_name + "!")
 print()
 print("0 - Search for a genre")
 print("1 - random genre")
@@ -117,5 +116,5 @@ while True:
     )
 
     # Play the mp3
-    player = mp3play.Player(sample_url[0])
+    player = url_mp3play.Player(sample_url[0])
     player.play()
