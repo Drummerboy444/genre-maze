@@ -110,4 +110,4 @@ venv.bak/
 # temporary mp3 files
 audio/temp_mp3s/
 
-audio/.cache*
+.cache*

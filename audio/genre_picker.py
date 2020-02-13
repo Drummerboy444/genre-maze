@@ -10,7 +10,7 @@ It contains a function named random genre which returns a random genre from this
 class GenrePicker:
     def __init__(self):
         self.genres = []
-        with open("genres.csv") as csv_file:
+        with open("./audio/genres.csv") as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=",")
             for row in csv_reader:
                 self.genres.append(row[0])
