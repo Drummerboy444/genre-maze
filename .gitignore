@@ -110,4 +110,5 @@ venv.bak/
 # temporary mp3 files
 audio/temp_mp3s/
 
+# authentication token
 .cache*
