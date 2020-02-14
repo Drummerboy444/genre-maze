@@ -10,4 +10,8 @@ def setup():
 def draw():
     sketch.draw()
 
+def mouse_pressed():
+    sketch.mouse_pressed()
+
+
 run()

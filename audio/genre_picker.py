@@ -19,6 +19,6 @@ class GenrePicker:
     def random_genre(self):
         return self.genres[randint(0, self.number_of_genres)]
 
-
-genre_object = GenrePicker()
-print(genre_object.random_genre())
+## Test
+# genre_object = GenrePicker()
+# print(genre_object.random_genre())

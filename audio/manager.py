@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import random
+import time
 import spotipy
 from json.decoder import JSONDecodeError
 import spotipy.util as util
@@ -44,7 +45,7 @@ class Manager:
         print("1 - random genre")
         print("2 - exit")
         print()
-        self.choice = input("Enter choice: 0 = choose, 1 = random")
+        self.choice = 1 #input("Enter choice: 0 = choose, 1 = random")
                 # get the genre from the user
         if self.choice == "0":
             print()
@@ -80,6 +81,7 @@ class Manager:
 
 
     def get_sample(self):
+        print("getting sample")
         # Get search results. 'items' is a list of length limit.
         # This is where the requested content (track data) is stored
         num_of_tracks = 10
