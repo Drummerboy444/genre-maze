@@ -11,6 +11,7 @@ class SketchManager:
 
     def draw(self):
         if mouse_x > 50:
+            self.audio_manager.get_sample()
             self.audio_manager.play_sample()
             stroke(255)
             ellipse((10,10),20,20)

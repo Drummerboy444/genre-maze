@@ -15,9 +15,9 @@ class Player:
         self.clock = pygame.time.Clock()
         http_manager = urllib3.PoolManager()
         http_object = http_manager.request("GET", self.url)
-        with open("temp_mp3s/temp.mp3", "wb") as output:
+        with open("audio/temp_mp3s/temp.mp3", "wb") as output:
             output.write(http_object.data)
-        self.song = "temp_mp3s/temp.mp3"
+        self.song = "audio/temp_mp3s/temp.mp3"
         pygame.init()
         pygame.mixer.init()
         pygame.mixer.music.load(self.song)
