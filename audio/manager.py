@@ -45,7 +45,7 @@ class Manager:
         print("1 - random genre")
         print("2 - exit")
         print()
-        self.choice = 1 #input("Enter choice: 0 = choose, 1 = random")
+        self.choice = "0" #input("Enter choice: 0 = choose, 1 = random")
                 # get the genre from the user
         if self.choice == "0":
             print()
@@ -92,35 +92,35 @@ class Manager:
         if len(search_results) == 0:
             print("Not a genre")
 
-            # Some of the tracks don't have a preview and return null. This is the workaround:
-            # Enumerate the items and make a list of only the items with a valid preview URL.
-            # Store each URL as a tuple with its original positon in the items list so we can
-            # retrieve the artist name and track title later from search results object.
-            # This should be made simpler by appending the artist and track data
-            # in the tuple at this point.
-            track_urls = []
-            for item in enumerate(search_results):
-                if item[1]["preview_url"] != None:
-                    track_urls.append((search_results[item[0]]["preview_url"], item[0]))
-            print("________________________________________________________")
+        # Some of the tracks don't have a preview and return null. This is the workaround:
+        # Enumerate the items and make a list of only the items with a valid preview URL.
+        # Store each URL as a tuple with its original positon in the items list so we can
+        # retrieve the artist name and track title later from search results object.
+        # This should be made simpler by appending the artist and track data
+        # in the tuple at this point.
+        track_urls = []
+        for item in enumerate(search_results):
+            if item[1]["preview_url"] != None:
+                track_urls.append((search_results[item[0]]["preview_url"], item[0]))
+        print("________________________________________________________")
 
-            # pick a random track from the tracks which have previews
-            picker = random.randint(0, len(track_urls) - 1)
-            self.sample_url = track_urls[picker]
+        # pick a random track from the tracks which have previews
+        picker = random.randint(0, len(track_urls) - 1)
+        self.sample_url = track_urls[picker]
 
-            # play the sample and display track info
-            # webbrowser.open(self.sample_url[0])
-            print(f"This is {genre}!")
-            print()
-            print(
-                f"Artist: {json.dumps(search_results[self.sample_url[1]]['album']['artists'][0]['name'], indent=4)}"
-            )
-            print(
-                f"Track: {json.dumps(search_results[self.sample_url[1]]['name'], sort_keys=True, indent=4)}"
-            )
-            # Play the mp3
-            player = audio.url.Player(self.sample_url[0])
-            player.play()
+        # play the sample and display track info
+        # webbrowser.open(self.sample_url[0])
+        print(f"This is {self.genre}!")
+        print()
+        print(
+            f"Artist: {json.dumps(search_results[self.sample_url[1]]['album']['artists'][0]['name'], indent=4)}"
+        )
+        print(
+            f"Track: {json.dumps(search_results[self.sample_url[1]]['name'], sort_keys=True, indent=4)}"
+        )
 
     def play_sample(self):
         print('hi')
+        # Play the mp3
+        player = audio.url.Player(self.sample_url[0])
+        player.play()
