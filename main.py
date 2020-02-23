@@ -13,5 +13,8 @@ def draw():
 def mouse_pressed():
     sketch.mouse_pressed()
 
+def key_pressed():
+    sketch.key_pressed()
+
 
 run()

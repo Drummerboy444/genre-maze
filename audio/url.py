@@ -24,15 +24,10 @@ class Player:
 
     def play(self):
         pygame.mixer.music.play()
-        # This while loop controls the music playback.
-        # Without it the script will finish and pygame will exit.
-        while pygame.mixer.music.get_busy():
+    
+    def pause(self):
+        pygame.mixer.music.pause()
 
-            self.clock.tick(30)
-
-# # Test
-# player = Player('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3')
-# player.play()
 
 
 

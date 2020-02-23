@@ -40,12 +40,7 @@ class Manager:
         self.volume = volume
         # initialise genre picker object
         genre_object = audio.genre_picker.GenrePicker()
-
-        print("0 - Search for a genre")
-        print("1 - random genre")
-        print("2 - exit")
-        print()
-        self.choice = "0" #input("Enter choice: 0 = choose, 1 = random")
+        self.choice = input("Genre select mode: 0 = choose, 1 = random")
                 # get the genre from the user
         if self.choice == "0":
             print()
@@ -90,7 +85,7 @@ class Manager:
         )
         search_results = search_results["tracks"]["items"]
         if len(search_results) == 0:
-            print("Not a genre")
+            print("Not a genre or no samples in this genre")
 
         # Some of the tracks don't have a preview and return null. This is the workaround:
         # Enumerate the items and make a list of only the items with a valid preview URL.
@@ -118,9 +113,12 @@ class Manager:
         print(
             f"Track: {json.dumps(search_results[self.sample_url[1]]['name'], sort_keys=True, indent=4)}"
         )
+        
+        # Make player object 
+        self.player = audio.url.Player(self.sample_url[0])
 
-    def play_sample(self):
-        print('hi')
-        # Play the mp3
-        player = audio.url.Player(self.sample_url[0])
-        player.play()
+    def play(self):
+        self.player.play()
+    
+    def pause(self):
+        self.player.pause()

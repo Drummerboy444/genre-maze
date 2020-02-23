@@ -8,15 +8,18 @@ class SketchManager:
         self.audio_manager = Manager()
         self.audio_manager.authenticate()
         self.audio_manager.get_sample()
+        self.background = 250
         size(400, 400)
 
     def draw(self):
-
-        background(100)
+        background(int(self.background))
 
     def mouse_pressed(self):
-        self.audio_manager.play_sample()
-
+        self.background = 0
+        self.audio_manager.play()
         stroke(255)
         ellipse((10,10),20,20)
-        play = True 
+    
+    def key_pressed(self):
+        self.background = 120
+        self.audio_manager.pause()
