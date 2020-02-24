@@ -113,7 +113,7 @@ class Manager:
         print(
             f"Track: {json.dumps(search_results[self.sample_url[1]]['name'], sort_keys=True, indent=4)}"
         )
-        
+
         # Make player object 
         self.player = audio.url.Player(self.sample_url[0])
 
@@ -122,3 +122,7 @@ class Manager:
     
     def pause(self):
         self.player.pause()
+
+    def set_volume(self, volume):
+        self.player.set_volume(volume)
+

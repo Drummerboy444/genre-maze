@@ -28,6 +28,10 @@ class Player:
     def pause(self):
         pygame.mixer.music.pause()
 
+    def set_volume(self, volume):
+            # volume = float(volume)
+            pygame.mixer.music.set_volume(volume)
+
 
 
 

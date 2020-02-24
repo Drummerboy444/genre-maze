@@ -6,8 +6,20 @@ def load():
 
 def play(sound):
     pygame.mixer.music.play()
-    h = input("enter to stop")
+
+def set_volume(volume):
+    pygame.mixer.music.set_volume(volume)
+
 
 
 s = load()
 play(s)
+while True:
+    volume = input("set new volume between 0 and 1")
+    
+    if volume.isnumeric:
+        volume = float(volume)
+        set_volume(float(volume))
+    else:
+        print("exiting")
+        break

@@ -12,7 +12,8 @@ class SketchManager:
         size(400, 400)
 
     def draw(self):
-        background(int(self.background))
+        background(mouse_x/width * 255)
+
 
     def mouse_pressed(self):
         self.background = 0
@@ -21,5 +22,6 @@ class SketchManager:
         ellipse((10,10),20,20)
     
     def key_pressed(self):
+        self.audio_manager.set_volume(mouse_x/width)
         self.background = 120
         self.audio_manager.pause()
