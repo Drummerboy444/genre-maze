@@ -39,7 +39,7 @@ class Manager:
         self.track_number = track_number
         self.volume = volume
         # initialise genre picker object
-        genre_object = audio.genre_picker.GenrePicker()
+        self.genre_object = audio.genre_picker.GenrePicker()
         self.choice = input("Genre select mode: 0 = choose, 1 = random")
                 # get the genre from the user
         if self.choice == "0":
@@ -47,8 +47,10 @@ class Manager:
             self.genre = input("Enter genre name:")
             print()
         elif self.choice == "1":
-            self.genre = genre_object.random_genre()
+            self.genre = self.genre_object.random_genre()
 
+    def new_random_genre(self):
+        self.genre = self.genre_object.random_genre()
 
     def authenticate(self):
         # get the username from terminal
@@ -85,7 +87,7 @@ class Manager:
         )
         search_results = search_results["tracks"]["items"]
         if len(search_results) == 0:
-            print("Not a genre or no samples in this genre")
+            print("Insufficient samples in this genre")
 
         # Some of the tracks don't have a preview and return null. This is the workaround:
         # Enumerate the items and make a list of only the items with a valid preview URL.
@@ -122,6 +124,12 @@ class Manager:
     
     def pause(self):
         self.player.pause()
+
+    def play_pause(self):
+        if self.player.is_playing():
+            self.player.pause()
+        else:
+            self.player.play()
 
     def set_volume(self, volume):
         self.player.set_volume(volume)

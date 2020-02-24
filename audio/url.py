@@ -11,6 +11,7 @@ audio player which can be paused and volume changed.
 
 class Player:
     def __init__(self, url):
+    
         self.url = url
         self.clock = pygame.time.Clock()
         http_manager = urllib3.PoolManager()
@@ -31,6 +32,11 @@ class Player:
     def set_volume(self, volume):
             # volume = float(volume)
             pygame.mixer.music.set_volume(volume)
+
+    def is_playing(self):
+        return pygame.mixer.music.get_busy()
+
+
 
 
 
