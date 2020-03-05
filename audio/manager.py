@@ -1,21 +1,23 @@
 import os
 import sys
 import json
-import random
 import time
-import spotipy
+import random
+from pprint import pprint
 from json.decoder import JSONDecodeError
+
+import spotipy
 import spotipy.util as util
 
-import audio.genre_picker
 import audio.url
+import audio.genre_picker
 
     
 
 """
 Spotipy script. 
 First run the $ lines in terminal:
-
+use dotenv to automaticly add these 
 $ export SPOTIPY_CLIENT_ID='a43cad70e5c94addbc2e8fa4a9940325'
 $ export SPOTIPY_CLIENT_SECRET='026fdfee51714c37a6c2b51242bc7e26'
 $ export SPOTIPY_REDIRECT_URI='http://google.com'
@@ -65,6 +67,9 @@ class Manager:
 
         # create our spotify object:
         self.spotify_object = spotipy.Spotify(auth=token)
+        
+
+        
 
         # initialise user data
         user = self.spotify_object.current_user()
@@ -85,6 +90,18 @@ class Manager:
         search_results = self.spotify_object.search(
             f'* genre:"{self.genre}"', limit=num_of_tracks, offset=0, type="track"
         )
+
+        pprint(search_results)
+
+        print("-" *80)
+
+        print(search_results)
+
+        print("="*80)
+
+        # print(json.dumps(search_results, sort_keys=True, indent=4))
+
+
         search_results = search_results["tracks"]["items"]
         if len(search_results) == 0:
             print("Insufficient samples in this genre")
@@ -110,10 +127,10 @@ class Manager:
         print(f"This is {self.genre}!")
         print()
         print(
-            f"Artist: {json.dumps(search_results[self.sample_url[1]]['album']['artists'][0]['name'], indent=4)}"
+            f"Artist: {search_results[self.sample_url[1]]['album']['artists'][0]['name']}"
         )
         print(
-            f"Track: {json.dumps(search_results[self.sample_url[1]]['name'], sort_keys=True, indent=4)}"
+            f"Track: {search_results[self.sample_url[1]]['name']}"
         )
 
         # Make player object 
